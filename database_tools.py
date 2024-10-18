@@ -21,7 +21,7 @@ async def findOne(client: AsyncIOMotorClient, database: str, collection: str, qu
         query (dict): document search request, like {"Name": "John"}
 
     Returns:
-        _type_: {"some": "data"}
+        dict: {"some": "data"}
     """
     document = await client[database][collection].find_one(query)
     return document
@@ -71,7 +71,7 @@ async def findOneValues(client: AsyncIOMotorClient, database: str, collection: s
         return None
 
     
-async def findAll(client: AsyncIOMotorClient, database: str, collection: str, leght: int):
+async def findAll(client: AsyncIOMotorClient, database: str, collection: str, query: dict, leght: int):  # TODO update DOCS 'cuz "query"
     """Get a list of multiple documents from entire database's collection
     Args:
         client (AsyncIOMotorClient): Motor client
@@ -82,7 +82,7 @@ async def findAll(client: AsyncIOMotorClient, database: str, collection: str, le
     Returns:
         list: list of documents
     """
-    cursor = client[database][collection].find({})
+    cursor = client[database][collection].find(query)
     documents_list = await cursor.to_list(leght)
     return documents_list
 
