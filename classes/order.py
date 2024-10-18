@@ -10,7 +10,8 @@ class Order:
         self.collection = "Orders"
     
     async def createOrder(self, table: str, order: dict):
-        count = 1  #TODO Create a count change, like #1/1, #1/2, Table 1/3 .
+        counts = await dbt.countDocuments(self.client, self.database, self.collection, {"table": table})
+        count = counts
         document = {"name": table + "/" + str(count),
                     "table": table,
                     "status": "active",
@@ -23,9 +24,13 @@ class Order:
         document = await dbt.findAll(self.client, self.database, self.collection, {"status": "active"}, 100)
         return document
         
-    async def undoLastOrder(self, name: str, table: str):
-        #TODO ??? delete items from table as well, to remove N quantity of items from table
-        pass
+    async def undoLastOrder(self, name: str):
+        document = await dbt.findOneValues(self.client, self.database, self.collection, {"name": name}, ["items", "table"])
+        order = document["items"]
+        table = document["table"]
+        t = Table(self.client)
+        await t.removeItems(table, order)
+        # await self.delete(name)  # TODO save delete to not repeat same name
     
     async def completeOrder(self, name: str, table: str):
         await dbt.updateOne(self.client, self.database, self.collection, {"name": name}, {"status": "complete"})
