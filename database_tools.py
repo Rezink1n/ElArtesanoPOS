@@ -140,3 +140,17 @@ async def moveToDatabase(client: AsyncIOMotorClient, database: str, collection: 
     await insertOne(client, new_database, new_collection, document)
     await deleteOne(client, database, collection, query)
     
+    
+async def countDocuments(client: AsyncIOMotorClient, database: str, collection: str, query: dict):
+    """Count amount of documents in collection
+    Args:
+        client (AsyncIOMotorClient): Motor client
+        database (str): name of database
+        collection (str): name of collection
+        query (dict): document search request, like {"status": "active"}
+
+    Returns:
+        int : amount
+    """
+    count = await client[database][collection].count_documents(query)
+    return count
