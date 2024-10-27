@@ -8,3 +8,4 @@ __pycache__/frontend.cpython-311.pyc
 dev_zone.py
 __pycache__/dbtools.cpython-311.pyc
 classes/__pycache__/dbtools.cpython-311.pyc
+__pycache__/fastapi.cpython-311.pyc

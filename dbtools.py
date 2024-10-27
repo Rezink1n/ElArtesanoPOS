@@ -71,13 +71,14 @@ class DBtool:
             return None
 
         
-    async def findAll(self, database: str, collection: str, leght: int, query: dict | None = {}):  # TODO update DOCS 'cuz "query"
+    async def findAll(self, database: str, collection: str, leght: int, query: dict | None = {}):
         """Get a list of multiple documents from entire database's collection
         Args: 
             database (str): name of database
             collection (str): name of collection
             leght (int): amount of documents
-
+            query (dict | None = {}): get all documents by default
+            
         Returns:
             list: list of documents
         """
