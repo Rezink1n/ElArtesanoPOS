@@ -6,3 +6,5 @@ __pycache__/main.cpython-311.pyc
 __pycache__/frontend.cpython-311.pyc
 .nicegui/storage-user-696732fa-e8e3-4bf8-9771-476a2e9379d9.json
 dev_zone.py
+__pycache__/dbtools.cpython-311.pyc
+classes/__pycache__/dbtools.cpython-311.pyc

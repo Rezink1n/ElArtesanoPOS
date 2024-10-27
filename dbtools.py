@@ -62,7 +62,6 @@ class DBtool:
             None : if it's not found
         """
         document = await self.client[database][collection].find_one(query)
-        print(document)
         data = {}
         try:
             for item in keys:
@@ -95,7 +94,7 @@ class DBtool:
             query (dict): document search request, like {"Name": "John"}
             update (dict): new value, for example {"Name": "Johnny"}
         """
-        result = await self.client[database][collection].update_one(query, {"$set": update})
+        await self.client[database][collection].update_one(query, {"$set": update})
         
 
     async def deleteOne(self, database: str, collection: str, query: dict):
@@ -142,9 +141,9 @@ class DBtool:
             new_database (str): new destination
             new_collection (str): new destination
         """
-        document = await self.findOne(self.client, database, collection, query)
-        await self.insertOne(self.client, new_database, new_collection, document)
-        await self.deleteOne(self.client, database, collection, query)
+        document = await self.findOne(database, collection, query)
+        await self.insertOne(new_database, new_collection, document)
+        await self.deleteOne(database, collection, query)
         
         
     async def countDocuments(self, database: str, collection: str, query: dict):
