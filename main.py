@@ -15,7 +15,7 @@ class ModelName(str, Enum):
     
 
 app = FastAPI()
-dbtool = DBtool()
+dbtool = DBtool(host="mongodb://root:password@good-mongo")
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
