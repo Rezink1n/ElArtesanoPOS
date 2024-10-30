@@ -4,7 +4,8 @@ from classes.table import Table
 from classes.order import Order
 from classes.item import Item
 from enum import Enum
-import uvicorn
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
 
 
 class ModelName(str, Enum):
@@ -20,7 +21,18 @@ o = Order(dbtool)
 i = Item(dbtool)
 
 
+@app.get('/')
+async def index():
+    return {"status": 200, "msg": "Server is running :)"}
+
+
 ### TABLES ###
+@app.get('/table/{table}')
+async def tableInfo(table: str):
+    table_info = await t.getInfo(table)
+    return table_info
+
+
 @app.get('/tables')
 async def tables():
     l = await t.getInfoAll()
@@ -48,7 +60,7 @@ async def delete_table(table: str):
 
 
 ### ORDERS ###
-@app.get('/')
+@app.get('/orders')
 async def get_active_orders():
     l = await o.getActiveOrders()
     return l
@@ -60,13 +72,13 @@ async def create_order(table: str, order: dict):
     return order
 
 
-@app.put('/')
+@app.put('/orders')
 async def complete_order(order: str):
     await o.completeOrder(order=order)
     return {"status": f"Complete {order}"}
 
 
-@app.delete('/')
+@app.delete('/orders')
 async def cancel_order(order: str):
     await o.cancelOrder(order=order)
     return {"status": f"Cancel {order}"}
@@ -92,7 +104,3 @@ async def change_item(item: str, model_name: ModelName, value: float | str):
 async def delete_item(item: str):
     await i.delete(item)
     return {"status": f"Delete {item}"}
-
-
-if __name__ == '__main__':
-    uvicorn.run(app="main:app", host="127.0.0.1", port=8000, reload=True)
