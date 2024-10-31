@@ -11,7 +11,7 @@ class Order:
         from .table import Table 
         counts = await self.dbtool.countDocuments(self.database, self.collection, {"table": table})
         count = counts
-        document = {"_id": table + "/" + str(count),
+        document = {"_id": table + " #" + str(count),
                     "table": table,
                     "status": "active",
                     "items": order}

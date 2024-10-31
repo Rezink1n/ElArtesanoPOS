@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block header %}
+    <a href="/">Home(menu)<a>
+    <label>Active orders</label>
+{% endblock %}
+{% block main %}
+    {% for order in orders %}
+        <span>Order </span>
+        <a href="/order/{{ order._id }}">{{ order._id }}<a>
+        <br>
+        <span>Table </span>
+        <a href="/table/{{ order.table }}">{{ order.table }}<a>
+        <br>
+        <span>Status {{ order.status }}</span>
+        <p>Items {{ order.items }}<p>
+    {% endfor %}
+{% endblock %}
+{% block footer %}
+        <a href="/tables">Tables</a>
+        <form action="create-table" method="post">
+            <input name="table" type="text" placeholder="table">
+            <input type="submit" value="create">
+        </form>
+{% endblock %}

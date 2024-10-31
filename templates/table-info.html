@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block header %}
+    <label>Table {{ table._id }}</label>
+{% endblock %}
+{% block main %}
+    <p>Table {{ table._id }}<p>
+    <p>Status {{ table.status }}<p>
+    <p>Bill {{ table.bill }}<p>
+    <p>Items {{ table.items }}<p>
+{% endblock %}
+{% block footer %}
+        <a href="/">Orders</a>
+        <a href="/order">Create order<a>
+{% endblock %}

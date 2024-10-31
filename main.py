@@ -4,72 +4,95 @@ from classes.table import Table
 from classes.order import Order
 from classes.item import Item
 from enum import Enum
+from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
-
+from fastapi.staticfiles import StaticFiles
+from starlette.responses import RedirectResponse
+from pydantic import BaseModel
+from typing import Dict
 
 class ModelName(str, Enum):
     description = "name"
     price = "price"
     category = "category"
     
+class OrderNote(BaseModel):
+    table: str
+    order: Dict[str, int]
+    
 
 app = FastAPI()
-dbtool = DBtool(host="mongodb://root:password@good-mongo")
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+# dbtool = DBtool(host="mongodb://root:password@good-mongo")
+dbtool = DBtool()
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
 
 
-@app.get('/')
-async def index():
-    return {"status": 200, "msg": "Server is running :)"}
+# @app.get('/')
+# async def index():
+#     return {"status": 200, "msg": "Server is running :)"}
 
 
 ### TABLES ###
 @app.get('/table/{table}')
-async def tableInfo(table: str):
+async def tableInfo(request: Request, table: str):
     table_info = await t.getInfo(table)
-    return table_info
+    return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info})
 
 
 @app.get('/tables')
-async def tables():
-    l = await t.getInfoAll()
-    return l
+async def tables(request: Request):
+    tables = await t.getInfoAll()
+    return templates.TemplateResponse("tables.html", {"request": request, "tables": tables})
 
 
-@app.post('/tables')
-async def create_table(name: str):
-    table = await t.createTable(name)
-    return table
+@app.post('/create-table')
+async def create_table(table: str = Form()):
+    await t.createTable(table)
+    return RedirectResponse(f"/table/{table}", status_code=303)
 
 # TODO change table values and discount function
 
 
-@app.put('/tables')
+@app.put('/pay-table')
 async def pay_table(table: str):
     await t.pay(table)
     return {"status": f"Pay {table}"}
 
 
-@app.delete('/tables')
+@app.delete('/delete-table')
 async def delete_table(table: str):
     await t.delete(table)
     return {"status": f"Delete {table}"}
 
 
 ### ORDERS ###
-@app.get('/orders')
-async def get_active_orders():
-    l = await o.getActiveOrders()
-    return l
+@app.get('/')
+async def get_active_orders(request: Request):
+    orders = await o.getActiveOrders()
+    # TODO if error
+    return templates.TemplateResponse("orders.html", {"request": request, "orders": orders})
 
+@app.get('/orderinfo/{order}')
+async def orderInfo(order: str):
+    order_info = await o.getOrderInfo(order)
+    return order_info
 
-@app.post('/')
-async def create_order(table: str, order: dict):
-    order = await o.createOrder(table=table, order=order)
-    return order
+@app.get('/order')
+async def order_page(request: Request):
+    items = await i.getAllInfo()
+    tables = await t.getInfoAll()
+    return templates.TemplateResponse("order.html", {"request": request, "items": items, "tables": tables})
+
+@app.post('/create-order')
+async def create_order(data: OrderNote):
+    order = data.dict()
+    await o.createOrder(table=order['table'], order=order["order"])
+    return RedirectResponse("/tables", status_code=303)
 
 
 @app.put('/orders')

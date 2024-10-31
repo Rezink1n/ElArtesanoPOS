@@ -36,6 +36,9 @@ class Table:
     async def addItems(self, table: str, order: dict):
         from .item import Item
         items: dict = await self.dbtool.findOneValue(self.database, self.collection, {"_id": table}, "items")
+        if items is None:
+            temp_table = await self.createTable(table)
+            items = temp_table["items"]
         for item in order:
             existance = items.get(item)
             if existance is None:
