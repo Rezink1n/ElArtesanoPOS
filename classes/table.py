@@ -13,16 +13,21 @@ class Table:
             table = name + "-" + str(duplicate)
         else:
             table = name
-        document = {"table": table,
+        document = {"_id": table,
                     "name": name,
                     "duplicate": duplicate,
                     "status": "active",
                     "bill": 0,
                     "items": {}}
         await self.dbtool.insertOne(self.database, self.collection, document)
+        return document
     
     async def getInfo(self, table: str):
-        document = await self.dbtool.findOne(self.database, self.collection, {"table": table})
+        document = await self.dbtool.findOne(self.database, self.collection, {"_id": table})
+        return document
+    
+    async def getInfoAll(self):
+        document = await self.dbtool.findAll(self.database, self.collection, 100)
         return document
         
     async def changeName(self, name: str, new_name: str):
@@ -30,7 +35,10 @@ class Table:
          
     async def addItems(self, table: str, order: dict):
         from .item import Item
-        items: dict = await self.dbtool.findOneValue(self.database, self.collection, {"table": table}, "items")
+        items: dict = await self.dbtool.findOneValue(self.database, self.collection, {"_id": table}, "items")
+        if items is None:
+            temp_table = await self.createTable(table)
+            items = temp_table["items"]
         for item in order:
             existance = items.get(item)
             if existance is None:
@@ -38,48 +46,49 @@ class Table:
             else:
                 existance += order[item]
                 items.update({item: existance})
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"items": items})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"items": items})
         i = Item(self.dbtool)
         pd = await i.getPriceDict()
         bill = 0
         for item in items:
             bill += (items[item] * pd[item])
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
                 
     async def removeItems(self, table: str, order: dict):
         from .item import Item
-        document: dict = await self.dbtool.findOneValues(self.database, self.collection, {"table": table}, ["items", "bill"])
+        document: dict = await self.dbtool.findOneValues(self.database, self.collection, {"_id": table}, ["items", "bill"])
         items = document["items"]
         for item in order:
             items[item] = items[item] - order[item]
             if items[item] == 0:
                 items.pop(item)
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"items": items})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"items": items})
         i = Item(self.dbtool)
         pd = await i.getPriceDict()
         bill = document["bill"]
         for item in order:
             bill -= (order[item] * pd[item])
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
         
     async def updateItems(self, table: str, updated_items: dict):
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"items": updated_items})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"items": updated_items})
         
     async def pay(self, table: str):
         from .order import Order
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"status": "paid"})
-        await self.dbtool.moveToDatabase(self.database, self.collection, {"table": table}, self.database, "Bills")
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"status": "paid"})
+        await self.dbtool.moveToDatabase(self.database, self.collection, {"_id": table}, self.database, "Bills")  
+        # TODO fix the save conflict of same ID in "Bills"
         o = Order(self.dbtool)
         await o.deleteAll(table)
         
     async def discountBill(self, table: str, discount: float):
-        bill = await self.dbtool.findOneValue(self.database, self.collection, {"table": table}, "bill")
+        bill = await self.dbtool.findOneValue(self.database, self.collection, {"_id": table}, "bill")
         bill -= discount
-        await self.dbtool.updateOne(self.database, self.collection, {"table": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
        
     async def delete(self, table: str):
         from .order import Order
-        await self.dbtool.deleteOne(self.database, self.collection, {"table": table})
+        await self.dbtool.deleteOne(self.database, self.collection, {"_id": table})
         o = Order(self.dbtool)
         await o.deleteAll(table)
    

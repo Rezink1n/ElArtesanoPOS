@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Items{% endblock %}
+{% block header %}
+    <label>Items</label>
+{% endblock %}
+{% block main %}
+    {% for item in items %}
+        <div>
+            <span>#{{ item.place }} | </span>
+            <a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a>
+            <span> | {{ item["price"] }} | {{ item["name"] }}</span>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block footer %}
+        <form action="/create-item" method="post">
+            <input name="code" type="text" placeholder="code">
+            <br>
+            <input name="name" type="text" placeholder="name">
+            <br>
+            <input name="price" type="number" step="0.05" placeholder="price">
+            <br>
+            <input name="place" type="number" placeholder="place">
+            <br>
+            <input type="submit" value="Create item">
+        </form>   
+{% endblock %}

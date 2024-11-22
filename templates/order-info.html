@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ order._id }}{% endblock %}
+{% block header %}
+    <label>Order {{ order._id }}</label>
+{% endblock %}
+{% block main %}
+    <span>Table: </span>
+    <a href="/table/{{ order.table }}">{{ order.table }}<a>
+    <p>Status: {{ order.status }}<p>
+    <p>--------------------</p>
+    {% for item in items %}
+        <p>{{ item }}: {{ items[item]}}</p>
+    {% endfor %}
+    <form action="cancel-order" method="post">
+        <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
+        <input type="submit" value="Cancel">
+    </form>
+{% endblock %}
+{% block footer %}
+        <a href="/tables"><input class="button" type="button" value="Tables"></a>
+        <a href="/order"><input class="button" type="button" value="Create order"></a>
+{% endblock %}

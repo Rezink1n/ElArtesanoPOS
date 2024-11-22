@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block header %}
+    <label>--== Active orders ==--</label>
+    <a href="/items">Items</a>
+{% endblock %}
+{% block main %}
+    {% for order in orders %}
+        <div>
+            <a class="order" href="/order-info/{{ order._id }}">{{ order._id }}<a>
+            {% for item in items[order._id] %}
+                <span class="order"> | {{ item }}: {{ items[order._id][item]}}<span>
+            {% endfor %}
+            <form action="complete-order" method="post">
+                <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
+                <input type="submit" value="Complete">
+            </form>
+
+            <p></p>
+
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block footer %}
+        <a href="/tables"><input class="button" type="button" value="Tables"></a>
+        <a href="/order"><input class="button" type="button" value="Create order"></a>
+{% endblock %}

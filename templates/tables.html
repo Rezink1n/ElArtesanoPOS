@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Tables{% endblock %}
+{% block header %}
+    <label>Tables</label>
+{% endblock %}
+{% block main %}
+    {% for table in tables %}
+        <div>
+            <a href="/table/{{ table._id }}"><input class="button" type="button" value="{{ table._id }} | {{ table.bill }}$"><a>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block footer %}
+        <a href="/tables"><input class="button" type="button" value="Tables"></a>
+        <a href="/order"><input class="button" type="button" value="Create order"></a>
+{% endblock %}
