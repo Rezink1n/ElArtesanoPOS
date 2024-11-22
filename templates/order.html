@@ -1,33 +1,36 @@
 {% extends "base.html" %}
 {% block title %}Order{% endblock %}
 {% block header %}
+    <label>Order</label>
+{% endblock %}
+
+{% block main %}
     <select id="tables" onchange="onSelectChange(event)">
-        <option value="">Choose a table</option>
+        <option value="{{ holder }}">{{ holder }}</option>
         <option value="new">--- new ---</option>
         {% for table in tables %}
             <option value="{{ table._id }}">{{ table._id }} | {{table.bill}}$</option>
         {% endfor %}
     </select>
-{% endblock %}
-
-{% block main %}
-    {% for item in items %}
-        <div>
-            <button type="button" onclick="countClick('{{ item._id }}')">{{ item._id }}<br><span id="{{ item._id }}-count">0</span></button>
-            <button type="button" onclick="countDown('{{ item._id }}')">-</button>
+    <div class="grid-container">
+        {% for item in items %}
+        <div class="grid-item">
+            <button class="button-item" type="button" onclick="countClick('{{ item._id }}')">{{ item._id }}<br><span id="{{ item._id }}-count">0</span></button>
+            <button class="button_minus" type="button" onclick="countDown('{{ item._id }}')">-</button>
         </div>
     {% endfor %}
+    </div>
+    
 {% endblock %}
 
 {% block footer %}
-    <a href="/tables">Tables</a>
     <!-- <button id="check" onclick="check()">ADD</button> -->
     <form id="foodForm" action="/create-order" method="post" onsubmit="check(event)">
-        <input type="submit" value="create">
+        <input class="button_create" type="submit" value="create">
     </form>
     
     <script>
-        let tableName = 'null';
+        let tableName = '{{ holder }}';
         function onSelectChange(event) {
             console.log(event.target.value);
             tableName = event.target.value;
@@ -51,13 +54,12 @@
             }
         
         function check(event) {
-            if (tableName == 'new') {
+            if (tableName == 'new' || tableName == 'Choose the table') {
                 let name=prompt("Label:");
                 tableName = name
                 if (name=null){
                     alert("Writedown a name");
                 }else{
-                
                     if (confirm(`to ${tableName} you add ${JSON.stringify(foodCount)}`)) {
                         console.log("You pressed GOOD!");
                         let data = {
@@ -72,6 +74,7 @@
                             },
                             body: JSON.stringify(data)
                         }).then(response => response.json());
+                        window.location.replace("/");
                         } else {
                         console.log("You pressed Cancel!");
                     }
@@ -91,6 +94,7 @@
                         },
                         body: JSON.stringify(data)
                     }).then(response => response.json());
+                    window.location.replace("/");
                     } else {
                     console.log("You pressed Cancel!");
                 }

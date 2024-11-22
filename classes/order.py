@@ -11,7 +11,7 @@ class Order:
         from .table import Table 
         counts = await self.dbtool.countDocuments(self.database, self.collection, {"table": table})
         count = counts
-        document = {"_id": table + " #" + str(count),
+        document = {"_id": table + "-" + str(count),
                     "table": table,
                     "status": "active",
                     "items": order}
@@ -30,12 +30,12 @@ class Order:
         
     async def cancelOrder(self, order: str):
         from .table import Table
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": order}, {"status": "canceled"})
         document = await self.dbtool.findOneValues(self.database, self.collection, {"_id": order}, ["items", "table"])
         order = document["items"]
         table = document["table"]
         t = Table(self.dbtool)
         await t.removeItems(table, order)
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": order}, {"status": "canceled"})
         
     async def completeOrder(self, order: str):
         await self.dbtool.updateOne(self.database, self.collection, {"_id": order}, {"status": "complete"})

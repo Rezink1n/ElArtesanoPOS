@@ -1,25 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Orders{% endblock %}
 {% block header %}
-    <a href="/">Home(menu)<a>
-    <label>Active orders</label>
+    <label>--== Active orders ==--</label>
+    <a href="/items">Items</a>
 {% endblock %}
 {% block main %}
     {% for order in orders %}
-        <span>Order </span>
-        <a href="/order/{{ order._id }}">{{ order._id }}<a>
-        <br>
-        <span>Table </span>
-        <a href="/table/{{ order.table }}">{{ order.table }}<a>
-        <br>
-        <span>Status {{ order.status }}</span>
-        <p>Items {{ order.items }}<p>
+        <div>
+            <a class="order" href="/order-info/{{ order._id }}">{{ order._id }}<a>
+            {% for item in items[order._id] %}
+                <span class="order"> | {{ item }}: {{ items[order._id][item]}}<span>
+            {% endfor %}
+            <form action="complete-order" method="post">
+                <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
+                <input type="submit" value="Complete">
+            </form>
+
+            <p></p>
+
+        </div>
     {% endfor %}
 {% endblock %}
 {% block footer %}
-        <a href="/tables">Tables</a>
-        <form action="create-table" method="post">
-            <input name="table" type="text" placeholder="table">
-            <input type="submit" value="create">
-        </form>
+        <a href="/tables"><input class="button" type="button" value="Tables"></a>
+        <a href="/order"><input class="button" type="button" value="Create order"></a>
 {% endblock %}

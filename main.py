@@ -15,7 +15,7 @@ from typing import Dict
 class ModelName(str, Enum):
     description = "name"
     price = "price"
-    category = "category"
+    place = "place"
     
 class OrderNote(BaseModel):
     table: str
@@ -26,7 +26,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 # dbtool = DBtool(host="mongodb://root:password@good-mongo")
-dbtool = DBtool()
+dbtool = DBtool(port=27071)
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
@@ -41,7 +41,8 @@ i = Item(dbtool)
 @app.get('/table/{table}')
 async def tableInfo(request: Request, table: str):
     table_info = await t.getInfo(table)
-    return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info})
+    items = table_info["items"]
+    return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info, "items": items})
 
 
 @app.get('/tables')
@@ -58,16 +59,16 @@ async def create_table(table: str = Form()):
 # TODO change table values and discount function
 
 
-@app.put('/pay-table')
-async def pay_table(table: str):
+@app.post('/table/pay-table')
+async def pay_table(table: str = Form()):
     await t.pay(table)
-    return {"status": f"Pay {table}"}
+    return RedirectResponse("/", status_code=303)
 
 
-@app.delete('/delete-table')
-async def delete_table(table: str):
+@app.post('/table/delete-table')
+async def delete_table(table: str = Form()):
     await t.delete(table)
-    return {"status": f"Delete {table}"}
+    return RedirectResponse("/", status_code=303)
 
 
 ### ORDERS ###
@@ -75,55 +76,83 @@ async def delete_table(table: str):
 async def get_active_orders(request: Request):
     orders = await o.getActiveOrders()
     # TODO if error
-    return templates.TemplateResponse("orders.html", {"request": request, "orders": orders})
+    items: dict = {}
+    for order in orders:
+        item = order["items"]
+        items[order["_id"]] = item
+    return templates.TemplateResponse("orders.html", {"request": request, "orders": orders, "items": items})
 
-@app.get('/orderinfo/{order}')
-async def orderInfo(order: str):
+# @app.get('/orders')
+# async def get_active_orders(request: Request):
+#     orders = await o.getActiveOrders()
+#     items: dict = {}
+#     for order in orders:
+#         item = order["items"]
+#         items[order["_id"]] = item
+#     return templates.TemplateResponse("orders.html", {"request": request, "orders": orders, "items": items})
+
+@app.get('/order-info/{order}')
+async def orderInfo(request: Request, order: str):
     order_info = await o.getOrderInfo(order)
-    return order_info
+    items = order_info["items"]
+    return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items})
 
 @app.get('/order')
-async def order_page(request: Request):
+async def order_page(request: Request, table: str | None = "Choose the table"):
     items = await i.getAllInfo()
     tables = await t.getInfoAll()
-    return templates.TemplateResponse("order.html", {"request": request, "items": items, "tables": tables})
+    holder = table
+    return templates.TemplateResponse("order.html", {"request": request, "items": items, "tables": tables, "holder": holder})
 
 @app.post('/create-order')
 async def create_order(data: OrderNote):
     order = data.dict()
     await o.createOrder(table=order['table'], order=order["order"])
-    return RedirectResponse("/tables", status_code=303)
+    return RedirectResponse("/", status_code=303)
 
 
-@app.put('/orders')
-async def complete_order(order: str):
+@app.post('/complete-order')
+async def complete_order(order: str = Form()):
     await o.completeOrder(order=order)
-    return {"status": f"Complete {order}"}
+    return RedirectResponse("/", status_code=303)
 
 
-@app.delete('/orders')
-async def cancel_order(order: str):
+@app.post('/order-info/cancel-order')
+async def cancel_order(order: str = Form()):
     await o.cancelOrder(order=order)
-    return {"status": f"Cancel {order}"}
+    return RedirectResponse("/", status_code=303)
 
 
 ### ITEMS ###
-@app.post('/items')
-async def create_item(name: str, code: str, price: float, category: str):
-    item = await i.createItem(name=name, code=code, price=price, category=category)
-    return item
+@app.get('/item/{item}')
+async def itemInfo(request: Request, item: str):
+    item_info = await i.getOneInfo(item)
+    return templates.TemplateResponse("item-info.html", {"request": request, "item": item_info})
 
-@app.put('/items')
-async def change_item(item: str, model_name: ModelName, value: float | str):
+
+@app.get('/items')
+async def items(request: Request):
+    items = await i.getAllInfo()
+    return templates.TemplateResponse("items.html", {"request": request, "items": items})
+
+
+@app.post('/create-item')
+async def create_item(name: str = Form(), code: str = Form(), price: str = Form(), place: int = Form()):
+    await i.createItem(name=name, code=code, price=float(price), place=place)
+    return RedirectResponse("/items", status_code=303)
+
+
+@app.post('/item/change-item')
+async def change_item(item: str = Form(), model_name: ModelName = Form(), value: str = Form()):
     if model_name is ModelName.description:
         await i.changeName(item, value)
     if model_name is ModelName.price:
         await i.changePrice(item, float(value))
-    if model_name is ModelName.category:
-        await i.changeCategory(item, value)
-    return {"status": f"Change {item} {model_name.value} to {value}"}
+    if model_name is ModelName.place:
+        await i.changePlace(item, int(value))
+    return RedirectResponse("/items", status_code=303)
 
-@app.delete('/items')
-async def delete_item(item: str):
+@app.post('/item/delete-item')
+async def delete_item(item: str = Form()):
     await i.delete(item)
-    return {"status": f"Delete {item}"}
+    return RedirectResponse("/items", status_code=303)

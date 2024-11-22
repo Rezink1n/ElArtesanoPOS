@@ -7,11 +7,11 @@ class Item:
         self.database = "OrderAPI"
         self.collection = "Items"
         
-    async def createItem(self, name: str, code: str, price: float, category: str):
+    async def createItem(self, name: str, code: str, price: float, place: int):
         document = {"_id": code,
                     "name": name,
-                    "price": price,
-                    "category": category}
+                    "price": price, 
+                    "place": place}
         await self.dbtool.insertOne(self.database, self.collection, document)
         return document
     
@@ -35,9 +35,9 @@ class Item:
                 
     async def changePrice(self, code: str, price: float):
         await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"price": price})
-        
-    async def changeCategory(self, code: str, category: str):
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"category": category})
+    
+    async def changePlace(self, code: str, place: int):
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"place": place})
        
     async def delete(self, code: str):
         await self.dbtool.deleteOne(self.database, self.collection, {"_id": code})
