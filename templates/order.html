@@ -25,7 +25,7 @@
 
 {% block footer %}
     <!-- <button id="check" onclick="check()">ADD</button> -->
-    <form id="foodForm" action="/create-order" method="post" onsubmit="check(event)">
+    <form id="foodForm" action="/create-order" enctype="multipart/form-data" method="post" onsubmit="check(event)">
         <input class="button_create" type="submit" value="create">
     </form>
     
