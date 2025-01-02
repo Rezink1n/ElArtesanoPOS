@@ -26,7 +26,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 # dbtool = DBtool(host="mongodb://root:password@good-mongo")
-dbtool = DBtool()
+dbtool = DBtool(port=27071)
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
@@ -42,7 +42,12 @@ i = Item(dbtool)
 async def tableInfo(request: Request, table: str):
     table_info = await t.getInfo(table)
     items = table_info["items"]
-    return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info, "items": items})
+    menu_list_raw = await i.getAllInfo()
+    item_names = {}
+    for menu in menu_list_raw:
+        item_names[menu["_id"]] = menu["name"]
+    print(item_names)
+    return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info, "items": items, "names": item_names})
 
 
 @app.get('/tables')

@@ -7,7 +7,7 @@
     <p>Status: {{ table.status }}<p>
     <p>-------------------</p>
     {% for item in items %}
-        <p>{{ item }}: {{ items[item] }}<p>
+        <p>{{ names[item] }}: {{ items[item] }}<p>
     {% endfor %}
     <p>==============<p>
     <p>Bill: {{ table.bill }}<p>
@@ -21,9 +21,8 @@
     </form>
 {% endblock %}
 {% block footer %}
-        <a href="/tables"><input class="button" type="button" value="Tables"></a>
         <form action="/order" method="get">
             <input type="text" value="{{ table._id }}" name="table" hidden="True"/>
-            <input class="button" type="submit" value="Create order"/>
+            <input class="button-footer" type="submit" value="Create order"/>
         </form>
 {% endblock %}

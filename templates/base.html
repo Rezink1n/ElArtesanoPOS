@@ -10,15 +10,16 @@
 </head>
 <body>
     <header>
-        <a href="/"><input class="button" type="button" value="Home"></a><span> | </span>
-        {% block header %}{% endblock %}
-        <p></p>
+        <a href="/"><input class="home-button" type="button" value="Home"></a>  
+        </div class="header-content">
+            {% block header %}{% endblock %}
+        </div>
+        <a href="/tables"><input class="tables-button" type="button" value="Tables"></a>        
     </header>
     <main>
         {% block main %}{% endblock %}
     </main>
     <footer>
-        <p></p>
         {% block footer %}{% endblock %}
     <footer>
 </body>

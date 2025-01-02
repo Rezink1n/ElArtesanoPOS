@@ -4,13 +4,14 @@
     <label>Tables</label>
 {% endblock %}
 {% block main %}
-    {% for table in tables %}
-        <div>
-            <a href="/table/{{ table._id }}"><input class="button" type="button" value="{{ table._id }} | {{ table.bill }}$"><a>
+    <div class="tables">
+        {% for table in tables %}
+        <div class="table-card">
+            <button class="table-card" onclick="document.location='table/{{ table._id }}'">{{ table._id }}<br>{{ table.bill }}$"</button>
         </div>
     {% endfor %}
+    </div>
 {% endblock %}
 {% block footer %}
-        <a href="/tables"><input class="button" type="button" value="Tables"></a>
-        <a href="/order"><input class="button" type="button" value="Create order"></a>
+        <a href="/order"><input class="button-footer" type="button" value="Create order"></a>
 {% endblock %}
