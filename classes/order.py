@@ -7,14 +7,16 @@ class Order:
         self.database = "OrderAPI"
         self.collection = "Orders"
     
-    async def createOrder(self, table: str, order: dict):
+    async def createOrder(self, table: str, order: dict, comment: str, takeaway: bool):
         from .table import Table 
         counts = await self.dbtool.countDocuments(self.database, self.collection, {"table": table})
         count = counts
         document = {"_id": table + "-" + str(count),
                     "table": table,
                     "status": "active",
-                    "items": order}
+                    "items": order, 
+                    "comment": comment,
+                    "takeaway": takeaway}
         await self.dbtool.insertOne(self.database, self.collection, document)
         t = Table(self.dbtool)
         await t.addItems(table, order)

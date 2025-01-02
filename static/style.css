@@ -22,8 +22,10 @@ main {
     background-color: brown;
     position: fixed;
     width: 100%;
+    height: max-content;
     top: 50px;
     left: 0;
+    overflow: auto;
 }
 
 footer {
@@ -73,9 +75,8 @@ footer {
 }
 .order-items-container {
     margin-top: 10px;
-    background-color: bisque;
+    background-color: rgb(145, 153, 102);
     display: grid;
-    row-gap: 10px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(6, 1fr);
 }
@@ -84,8 +85,57 @@ footer {
     background-color: blueviolet;
     min-height: 70px;
     min-width: 70px;
+    max-width: 150px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr); 
     justify-content: center;
+}
+
+.button-item {
+    max-height: 60px;
+    max-width: 70px;
+}
+
+.button-minus {
+    margin: 10px 20px 10px 5px;
+    border-color: red;
+    max-height: 40px;
+    max-width: 50px;
+}
+
+.create-button, .create-order {
+    height: 60px;
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.comment-btn {
+    height: 35px;   
+}
+
+.textarea-div {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    grid-template-rows: repeat(1, 1fr); 
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.text-buttons {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, 1fr); 
+    justify-content: right;
+    margin-left: 5px;
+}
+
+.remove-button {
+    height: 30px;
+    width: 60px;
+}
+
+.next-button {
+    height: 40px;
+    width: 100px;
 }

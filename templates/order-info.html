@@ -6,16 +6,16 @@
 {% block main %}
     <span>Table: </span>
     <a href="/table/{{ order.table }}">{{ order.table }}<a>
-    <p>Status: {{ order.status }}<p>
-    <p>--------------------</p>
+    <p>Take away: {{ order.takeaway }} </p>
     {% for item in items %}
         <p>{{ item }}: {{ items[item]}}</p>
     {% endfor %}
+    <p> {{ order.comment }} </p>
     <form action="cancel-order" method="post">
         <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
         <input type="submit" value="Cancel">
     </form>
 {% endblock %}
 {% block footer %}
-        <a href="/order"><input class="button-footer" type="button" value="Create order"></a>
+        <a href="/order"><input class="create-order" type="button" value="Create order"></a>
 {% endblock %}

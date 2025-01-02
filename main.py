@@ -20,6 +20,8 @@ class ModelName(str, Enum):
 class OrderNote(BaseModel):
     table: str
     order: Dict[str, int]
+    comment: str
+    takeaway: bool
     
 
 app = FastAPI()
@@ -46,7 +48,6 @@ async def tableInfo(request: Request, table: str):
     item_names = {}
     for menu in menu_list_raw:
         item_names[menu["_id"]] = menu["name"]
-    print(item_names)
     return templates.TemplateResponse("table-info.html", {"request": request, "table": table_info, "items": items, "names": item_names})
 
 
@@ -99,6 +100,7 @@ async def get_active_orders(request: Request):
 @app.get('/order-info/{order}')
 async def orderInfo(request: Request, order: str):
     order_info = await o.getOrderInfo(order)
+    print(order_info)
     items = order_info["items"]
     return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items})
 
@@ -112,7 +114,8 @@ async def order_page(request: Request, table: str | None = "Choose the table"):
 @app.post('/create-order')
 async def create_order(data: OrderNote):
     order = data.dict()
-    await o.createOrder(table=order['table'], order=order["order"])
+    print(order)
+    await o.createOrder(table=order['table'], order=order["order"], comment=order["comment"], takeaway=order["takeaway"])
     return RedirectResponse("/", status_code=303)
 
 

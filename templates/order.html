@@ -18,7 +18,7 @@
         {% for item in items %}
         <div class="order-item">
             <button class="button-item" type="button" onclick="countClick('{{ item._id }}')">{{ item._id }}<br><span id="{{ item._id }}-count">0</button>
-            <button class="button_minus" type="button" onclick="countDown('{{ item._id }}')">-</button>
+            <button class="button-minus" type="button" onclick="countDown('{{ item._id }}')">-</button>
         </div>
     {% endfor %}
     </div>
@@ -26,12 +26,45 @@
 {% endblock %}
 
 {% block footer %}
+    <div class="comment-container">
+        <div class="comment-buttons">
+            <button class="comment-btn" onclick="push(this, 'comment', ' Desc.')">Desc.</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Caliente')">Caliente</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Templada')">Templada</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Fria')">Fria</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Solo')">Solo</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Cortado')">Cortado</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Largo')">Largo</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Corto')">Corto</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Sobre')">Sobre</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Morena')">Morena</button>
+            <button class="comment-btn" onclick="push(this, 'comment', ' Sacarina')">Sacarina</button>
+            <input class="takeaway-button" type="checkbox" id="takeaway" name="takeaway"/>llevar
+        </div>
+        <div class="textarea-div">
+            <textarea id="comment" name="comment" placeholder="Comment ..." cols="30" rows="4"></textarea>
+            <div class="text-buttons">
+                <button class="remove-button" onClick="backspace()">remove</button>
+                <button class="next-button" onclick="push(this, 'comment', '\n')">Next</button>
+            </div>
+        </div>
+    </div>
     <!-- <button id="check" onclick="check()">ADD</button> -->
     <form id="foodForm" action="/create-order" enctype="multipart/form-data" method="post" onsubmit="check(event)">
-        <input class="button_create" type="submit" value="create">
+        <input class="create-button" type="submit" value="CREATE">
     </form>
     
     <script>
+
+        function push(but, id, tag) {
+            document.getElementById(id).value += tag;
+        }
+
+        function backspace() {
+            var edt2 = document.getElementById("comment");
+            edt2.value = edt2.value.substring(0, edt2.value.length - 5);
+        }
+
         let tableName = '{{ holder }}';
         function onSelectChange(event) {
             console.log(event.target.value);
@@ -58,7 +91,15 @@
         function check(event) {
             if (tableName == 'new' || tableName == 'Choose the table') {
                 let name=prompt("Label:");
+                let comment_raw=document.getElementById("comment").value;
                 tableName = name
+                comment = comment_raw
+                const checkbox = document.getElementById('takeaway');
+                if (checkbox.checked) {
+                var takeaway = true
+                } else {
+                var takeaway = false
+                }
                 if (name=null){
                     alert("Writedown a name");
                 }else{
@@ -66,7 +107,9 @@
                         console.log("You pressed GOOD!");
                         let data = {
                             "table": tableName,
-                            "order": foodCount
+                            "order": foodCount,
+                            "comment": comment,
+                            "takeaway": takeaway
                         };
                         event.preventDefault();
                         fetch('/create-order', {
@@ -86,7 +129,9 @@
                     console.log("You pressed GOOD!");
                     let data = {
                         "table": tableName,
-                        "order": foodCount
+                        "order": foodCount,
+                        "comment": comment,
+                        "takeaway": takeaway
                     };
                     event.preventDefault();
                     fetch('/create-order', {
