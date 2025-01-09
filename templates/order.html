@@ -67,7 +67,6 @@
 
         let tableName = '{{ holder }}';
         function onSelectChange(event) {
-            console.log(event.target.value);
             tableName = event.target.value;
         }
 
@@ -84,27 +83,30 @@
         function countDown(food) {
             if (foodCount[food]) {
                 foodCount[food] -= 1;
-                document.getElementById(`${food}-count`).textContent = foodCount[food];
+                if (foodCount[food] == 0) {
+                    delete foodCount[food];
+                    document.getElementById(`${food}-count`).textContent = 0;s
+                    } else {
+                        document.getElementById(`${food}-count`).textContent = foodCount[food];
+                    }
                 }
             }
         
         function check(event) {
-            if (tableName == 'new' || tableName == 'Choose the table') {
-                let name=prompt("Label:");
-                let comment_raw=document.getElementById("comment").value;
+            if (tableName == 'new' || tableName == {{ holder}}) {
+                let name=prompt("Escribe nombre de mesa:");
+                let comment=document.getElementById("comment").value;
                 tableName = name
-                comment = comment_raw
                 const checkbox = document.getElementById('takeaway');
                 if (checkbox.checked) {
-                var takeaway = true
+                    var takeaway = true
                 } else {
-                var takeaway = false
+                    var takeaway = false
                 }
                 if (name=null){
                     alert("Writedown a name");
                 }else{
                     if (confirm(`to ${tableName} you add ${JSON.stringify(foodCount)}`)) {
-                        console.log("You pressed GOOD!");
                         let data = {
                             "table": tableName,
                             "order": foodCount,
@@ -125,8 +127,7 @@
                     }
                 }
             }else{
-                if (confirm(`to ${tableName} you add ${JSON.stringify(foodCount)}`)) {
-                    console.log("You pressed GOOD!");
+                if (confirm(`Mesa: ${tableName} > agregar ${JSON.stringify(foodCount)}`)) {
                     let data = {
                         "table": tableName,
                         "order": foodCount,
