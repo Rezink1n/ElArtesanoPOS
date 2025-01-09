@@ -24,20 +24,13 @@ class OrderNote(BaseModel):
     takeaway: bool
     
 
-app = FastAPI()
+app = FastAPI(title="OrderAPI")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-# dbtool = DBtool(host="mongodb://root:password@good-mongo")
-dbtool = DBtool(port=27071)
+dbtool = DBtool(host="mongodb://orderapi-mongodb-1")
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
-
-
-# @app.get('/')
-# async def index():
-#     return {"status": 200, "msg": "Server is running :)"}
-
 
 ### TABLES ###
 @app.get('/table/{table}')
