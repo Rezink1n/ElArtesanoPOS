@@ -15,32 +15,112 @@
         </select>
     </div>
     <div class="order-items-container">
-        {% for item in items %}
-        <div class="order-item">
-            <button class="button-item" type="button" onclick="countClick('{{ item._id }}')">{{ item._id }}<br><span id="{{ item._id }}-count">0</button>
-            <button class="button-minus" type="button" onclick="countDown('{{ item._id }}')">-</button>
+        <div id="cafes" class="modal">
+            <div class="modal-content">
+                <span id="closeCafes" class="close">&times;</span>
+                <input value="" id="cafelito" hidden>
+                <label for="temperatura">Temperatura</label>
+                <div class="radio-toolbar">
+                    <input type="radio" name="temperatura" id="caliente" value="caliente" checked>
+                    <label for="caliente">Caliente</label>
+                    <input type="radio" class="option" name="temperatura" id="templada" value="templada">
+                    <label for="templada">Templada</label>
+                    <input type="radio" class="option" name="temperatura" id="fria" value="fria">
+                    <label for="fria">Fria</label>
+                </div>
+                <label for="leche">Leche</label>
+                <div class="radio-toolbar">
+                    <input type="radio" name="leche" id="vaca" value="normal" checked>
+                    <label for="vaca">Normal</label>
+                    <input type="radio" class="option" name="leche" id="sin lactosa" value="sin lactosa">
+                    <label for="sin lactosa">Sin lactosa</label>
+                    <input type="radio" class="option" name="leche" id="soja" value="soja">
+                    <label for="soja">Soja</label>
+                </div>
+                <label for="leche">Taza</label>
+                <div class="radio-toolbar">
+                    <input type="radio" name="taza" id="vaso" value="vaso" checked>
+                    <label for="vaso">Vaso</label>
+                    <input type="radio" class="option" name="taza" id="taza" value="taza">
+                    <label for="taza">Taza</label>
+                    <input type="radio" class="option" name="taza" id="grande" value="grande">
+                    <label for="grande">Grande</label>
+                </div>
+                <Label>Descafeinado</Label>
+                <div>
+                    <label class="switch">
+                        <input type="checkbox" id="desc">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <button id="confirmar-cafe" onclick="confirmarCafe()">Confirmar</button>
+            </div>
         </div>
-    {% endfor %}
+        <div id="tostadas" class="modal">
+            <div class="modal-content">
+                <span id="closeTostadas" class="close">&times;</span>
+                <div class="tostadas-menu">
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Aceite')">Aceite<br><span id="Aceite-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Aceite')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Tomate')">Tomate<br><span id="Tomate-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Tomate')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Marmelada')">Marmelada<br><span id="Marmelada-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Marmelada')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Bikini')">Bikini<br><span id="Bikini-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Bikini')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Queso')">Queso<br><span id="Queso-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Queso')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('Serrano')">Serrano<br><span id="Serrano-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Serrano')">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="leche" type="button">Con leche</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="solo" type="button">Solo</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="cortado" type="button">Cortado</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="americano" type="button">Americano</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalTostadas" type="button">Tostadas</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" type="button" onclick="countClick('Churros')">Churros<br><span id="Churros-count">0</button>
+            <button class="button-minus" type="button" onclick="countDown('Churros')">-</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" type="button" onclick="countClick('Porras')">Porras<br><span id="Porras-count">0</button>
+            <button class="button-minus" type="button" onclick="countDown('Porras')">-</button>
+        </div>
+        {% for item in items %}
+            <div class="order-item">
+                <button class="button-item" type="button" onclick="countClick('{{ item._id }}')">{{ item._id }}<br><span id="{{ item._id }}-count">0</button>
+                <button class="button-minus" type="button" onclick="countDown('{{ item._id }}')">-</button>
+            </div>
+         {% endfor %}
     </div>
     
 {% endblock %}
 
 {% block footer %}
-    <div class="comment-container">
-        <div class="comment-buttons">
-            <button class="comment-btn" onclick="push(this, 'comment', ' Desc.')">Desc.</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Caliente')">Caliente</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Templada')">Templada</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Fria')">Fria</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Solo')">Solo</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Cortado')">Cortado</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Largo')">Largo</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Corto')">Corto</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Sobre')">Sobre</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Morena')">Morena</button>
-            <button class="comment-btn" onclick="push(this, 'comment', ' Sacarina')">Sacarina</button>
-            <input class="takeaway-button" type="checkbox" id="takeaway" name="takeaway"/>llevar
-        </div>
         <div class="textarea-div">
             <textarea id="comment" name="comment" placeholder="Comment ..." cols="30" rows="4"></textarea>
             <div class="text-buttons">
@@ -55,6 +135,67 @@
     </form>
     
     <script>
+
+        function confirmarCafe() {
+            var cafelito = document.getElementById("cafelito").value;
+            var temp = document.querySelector('input[name="temperatura"]:checked').value;
+            var leche = document.querySelector('input[name="leche"]:checked').value;
+            var taza = document.querySelector('input[name="taza"]:checked').value;
+            var desc = document.getElementById("desc").checked;
+            alert(cafelito + temp + leche + taza + desc);
+        }
+            
+        // Получаем элементы
+        const cafes = document.getElementById('cafes');
+        const openModalCafes = document.getElementById('openModalCafes');
+        const closeCafes = document.getElementById('closeCafes');
+
+        const tostadas = document.getElementById('tostadas');
+        const openModalTostadas = document.getElementById('openModalTostadas');
+        const closeTostadas = document.getElementById('closeTostadas');
+
+        // Открытие модального окна
+        function cafes_menu(typo){
+            document.getElementById("cafelito").value = typo;
+            cafes.style.display = 'block';
+        }
+
+        // Открытие модального окна
+        openModalTostadas.onclick = function() {
+            tostadas.style.display = 'block';
+        }
+
+        // Закрытие модального окна
+        closeTostadas.onclick = function() {
+            tostadas.style.display = 'none';
+        }
+
+        function reset_options() {
+            var options = document.querySelectorAll('.option');
+            options.forEach(function(element){element.checked = false; })
+            document.getElementById('caliente').checked = true;
+            document.getElementById('vaca').checked = true;
+            document.getElementById('vaso').checked = true;
+            document.getElementById('desc').checked = false;
+        }
+
+        // Закрытие модального окна
+        closeCafes.onclick = function() {
+            reset_options()
+            cafes.style.display = 'none';
+        }
+
+        // Закрытие окна при клике вне его
+        window.onclick = function(event) {
+            if (event.target == cafes) {
+                reset_options()
+                cafes.style.display = 'none';
+            }
+            if (event.target == tostadas) {
+                tostadas.style.display = 'none';
+            }
+        }
+
 
         function push(but, id, tag) {
             document.getElementById(id).value += tag;
@@ -85,7 +226,7 @@
                 foodCount[food] -= 1;
                 if (foodCount[food] == 0) {
                     delete foodCount[food];
-                    document.getElementById(`${food}-count`).textContent = 0;s
+                    document.getElementById(`${food}-count`).textContent = 0;
                     } else {
                         document.getElementById(`${food}-count`).textContent = foodCount[food];
                     }
@@ -93,10 +234,10 @@
             }
         
         function check(event) {
-            if (tableName == 'new' || tableName == {{ holder}}) {
+            if (tableName == 'new' || tableName == "Choose the table") {
                 let name=prompt("Escribe nombre de mesa:");
                 let comment=document.getElementById("comment").value;
-                tableName = name
+                tableName = name;
                 const checkbox = document.getElementById('takeaway');
                 if (checkbox.checked) {
                     var takeaway = true
@@ -104,9 +245,9 @@
                     var takeaway = false
                 }
                 if (name=null){
-                    alert("Writedown a name");
+                    alert("Escribe el nombre");
                 }else{
-                    if (confirm(`to ${tableName} you add ${JSON.stringify(foodCount)}`)) {
+                    if (confirm(`Mesa: ${tableName} > agregar ${JSON.stringify(foodCount)}`)) {
                         let data = {
                             "table": tableName,
                             "order": foodCount,
@@ -123,7 +264,7 @@
                         }).then(response => response.json());
                         window.location.replace("/");
                         } else {
-                        console.log("You pressed Cancel!");
+                            console.log("You pressed Cancel!");
                     }
                 }
             }else{
@@ -144,9 +285,9 @@
                     }).then(response => response.json());
                     window.location.replace("/");
                     } else {
-                    console.log("You pressed Cancel!");
+                        console.log("You pressed Cancel!");
+                    }
                 }
-            }
-        }        
+        }  
     </script>
 {% endblock %}
