@@ -109,7 +109,7 @@ class DBtool:
         
         
     async def deleteMany(self, database: str, collection: str, query: dict):
-        """Delete documents from the collection
+        """Delete documents from the collectionname
         Args:
             database (str): name of database
             collection (str): name of collection
@@ -133,7 +133,7 @@ class DBtool:
         await self.client[database][collection].replace_one({"_id": _id}, document)
 
 
-    async def moveToDatabase(self, database: str, collection: str, query: dict, new_database: str, new_collection: str):
+    async def copyToDatabase(self, database: str, collection: str, query: dict, new_database: str, new_collection: str, delete: bool):
         """Move a document from one database to another one
         Args:
             database (str): name of database
@@ -144,7 +144,8 @@ class DBtool:
         """
         document = await self.findOne(database, collection, query)
         await self.insertOne(new_database, new_collection, document)
-        await self.deleteOne(database, collection, query)
+        if delete:
+            await self.deleteOne(database, collection, query)
         
         
     async def countDocuments(self, database: str, collection: str, query: dict):

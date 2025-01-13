@@ -1,21 +1,42 @@
 {% extends "base.html" %}
 {% block title %}{{ order._id }}{% endblock %}
 {% block header %}
-    <label>Order {{ order._id }}</label>
+    <label>Order {{ order._id }}
+    <form action="complete-order" method="post">
+        <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
+        <input type="submit" value="Completar">
+    </form></label>
 {% endblock %}
 {% block main %}
-    <span>Table: </span>
-    <a href="/table/{{ order.table }}">{{ order.table }}<a>
-    <p>Take away: {{ order.takeaway }} </p>
-    {% for item in items %}
-        <p>{{ item }}: {{ items[item]}}</p>
-    {% endfor %}
-    <p> {{ order.comment }} </p>
-    <form action="cancel-order" method="post">
+    <button><a href="/table/{{ order.table }}">Abrir mesa {{ order.table }}<a></button>
+    <button onclick="cancelOrder()">Cancelar pedido</button>
+    <form id='cancelOrder' action="cancel-order" method="post">
         <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
-        <input type="submit" value="Cancel">
+        <script>
+            function cancelOrder(){
+                if (confirm("Cancelar pedido?")) {
+                    document.getElementById("cancelOrder").submit();
+                } else {
+                    return;
+                }
+            }
+        </script>
     </form>
+    {% if 'porras' in items %}
+        {% set porras = items['porras'] %}
+    {% endif %}
+    {% if 'churros' in items %}
+        {% set churros = items['churros'] %}
+    {% endif %}
+    <h2 style="margin-left: 40%">{{ porras }} / {{ churros }}</h2>
+    <h3>Comida:</h3>
+    {% for item in items %}
+        <button>{{ item }}: {{ items[item]}}</button>
+    {% endfor %}
+    <h3>Cafes:</h3>
+    {% for cafe in cafes %}
+        <button>{{ cafe }}</button>
+    {% endfor %}
 {% endblock %}
 {% block footer %}
-        <a href="/order"><input class="create-order" type="button" value="Create order"></a>
 {% endblock %}
