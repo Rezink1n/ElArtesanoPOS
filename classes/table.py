@@ -23,7 +23,7 @@ class Table:
         return document
     
     async def getInfo(self, table: str):
-        document = await self.dbtool.findOne(self.database, self.collection, {"_id": table})
+        document = await self.dbtool.findOne(self.database, self.collection, {"name": table})
         return document
     
     async def getInfoAll(self):
@@ -75,11 +75,11 @@ class Table:
         
     async def pay(self, table: str):
         from .order import Order
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"status": "paid"})
-        await self.dbtool.moveToDatabase(self.database, self.collection, {"_id": table}, self.database, "Bills")  
-        # TODO fix the save conflict of same ID in "Bills"
         o = Order(self.dbtool)
         await o.deleteAll(table)
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": 0})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"items": {}})
+        # TODO make save of Bill
         
     async def discountBill(self, table: str, discount: float):
         bill = await self.dbtool.findOneValue(self.database, self.collection, {"_id": table}, "bill")
@@ -91,4 +91,10 @@ class Table:
         await self.dbtool.deleteOne(self.database, self.collection, {"_id": table})
         o = Order(self.dbtool)
         await o.deleteAll(table)
+        
+    async def resetTables(self):
+        tables = ['1', '2', '3', '4', '5', '6', '7', 'B1', 'B2', 'B3', 'B4', 'B5']
+        await self.dbtool.deleteMany(self.database, self.collection, {})
+        for i in tables:
+            await self.createTable(i)
    

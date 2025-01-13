@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Order{% endblock %}
 {% block header %}
-    <label>Mesa {{ holder }}</label>
+    <label>Order</label>
 {% endblock %}
 
 {% block main %}
     <div class="selector">
-        <select id="tables" onchange="onSelectChange(event)" hidden>
+        <select id="tables" onchange="onSelectChange(event)">
             <option value="{{ holder }}">{{ holder }}</option>
             <option value="new">--- new ---</option>
             {% for table in tables %}
@@ -19,21 +19,6 @@
             <div class="modal-content">
                 <span id="closeCafes" class="close">&times;</span>
                 <input value="" id="cafelito" hidden>
-                <label for="cafelito">Cafe</label>
-                <div class="radio-toolbar">
-                    <input type="radio" name="cafelito" id="con leche" value="con leche" checked>
-                    <label for="con leche">Con leche</label>
-                    <input type="radio" name="cafelito" id="corto" value="corto">
-                    <label for="corto">Corto</label>
-                    <input type="radio" name="cafelito" id="largo" value="largo">
-                    <label for="largo">Largo</label>
-                    <input type="radio" name="cafelito" id="cortado" value="cortado">
-                    <label for="cortado">Cortado</label>
-                    <input type="radio" name="cafelito" id="solo" value="solo">
-                    <label for="solo">Solo</label>
-                    <input type="radio" name="cafelito" id="americano" value="americano">
-                    <label for="americano">Americano</label>
-                </div>
                 <label for="temperatura">Temperatura</label>
                 <div class="radio-toolbar">
                     <input type="radio" name="temperatura" id="caliente" value="caliente" checked>
@@ -94,65 +79,60 @@
                 <span id="closeTostadas" class="close">&times;</span>
                 <div class="tostadas-menu">
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('aceite')">Aceite<br><span id="aceite-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('aceite')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Aceite')">Aceite<br><span id="Aceite-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Aceite')">-</button>
                     </div>
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('tomate')">Tomate<br><span id="tomate-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('tomate')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Tomate')">Tomate<br><span id="Tomate-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Tomate')">-</button>
                     </div>
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('marmelada')">Marmelada<br><span id="marmelada-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('marmelada')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Marmelada')">Marmelada<br><span id="Marmelada-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Marmelada')">-</button>
                     </div>
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('mixta')">Mixta<br><span id="mixta-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('mixta')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Bikini')">Bikini<br><span id="Bikini-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Bikini')">-</button>
                     </div>
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('queso')">Queso<br><span id="queso-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('queso')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Queso')">Queso<br><span id="Queso-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Queso')">-</button>
                     </div>
                     <div class="order-item">
-                        <button class="button-item" type="button" onclick="countClick('jamon')">Jamon<br><span id="jamon-count">0</button>
-                        <button class="button-minus" type="button" onclick="countDown('jamon')">-</button>
+                        <button class="button-item" type="button" onclick="countClick('Serrano')">Serrano<br><span id="Serrano-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('Serrano')">-</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div id="menulist" class="modal">
-            <div class="modal-content">
-                <span id="closeMenuList" class="close">&times;</span>
-                <div id="foodlistik" class="menulist">
-                    
-                </div>
-                <form id="foodForm" action="/create-order" enctype="multipart/form-data" method="post" onsubmit="check(event)">
-                    <input class="create-button" type="submit" value="Confirmar">
-                </form>
-                
-            </div>
-        </div>
-        <div id="menucafe" class="modal">
-            <div class="modal-content">
-                <span id="closeMenuCafe" class="close">&times;</span>
-                <div class="menucafe">
-                    <div id="cafesss"></div>
                 </div>
             </div>
         </div>
         <div class="order-item">
-            <button class="button-item" type="button" onclick="countClick('porras')">Porras<br><span id="porras-count">0</button>
-            <button class="button-minus" type="button" onclick="countDown('porras')">-</button>
+            <button class="button-item" type="button" onclick="countClick('Porras')">Porras<br><span id="Porras-count">0</button>
+            <button class="button-minus" type="button" onclick="countDown('Porras')">-</button>
         </div>
         <div class="order-item">
-            <button class="button-item" type="button" onclick="countClick('churros')">Churros<br><span id="churros-count">0</button>
-            <button class="button-minus" type="button" onclick="countDown('churros')">-</button>
+            <button class="button-item" type="button" onclick="countClick('Churros')">Churros<br><span id="Churros-count">0</button>
+            <button class="button-minus" type="button" onclick="countDown('Churros')">-</button>
         </div>
         <div class="order-item">
             <button class="button-item" id="openModalTostadas" type="button">Tostadas</button>
         </div>
         <div class="order-item">
-            <button class="button-item" id="openModalCafes" onclick="cafes_menu()"type="button">Cafe</button>
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="con leche" type="button">Con leche</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="corto" type="button">Corto</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="largo" type="button">Largo</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="cortado" type="button">Cortado</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="solo" type="button">Solo</button>
+        </div>
+        <div class="order-item">
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu(this.value)" value="americano" type="button">Americano</button>
         </div>
         {% for item in items %}
             <div class="order-item">
@@ -165,14 +145,21 @@
 {% endblock %}
 
 {% block footer %}
-    <button id="openMenuCafe" onclick="menuCafe()" type="button">Cafes</button>
-    <button id="openMenuList" onclick="menuList()" type="button">Ver pedido</button>
+        <p id="order"></p>
+        <div id="cafesss">
+            
+        </div>
+    </div>
+    <!-- <button id="check" onclick="check()">ADD</button> -->
+    <form id="foodForm" action="/create-order" enctype="multipart/form-data" method="post" onsubmit="check(event)">
+        <input class="create-button" type="submit" value="CREATE">
+    </form>
+    <button onclick="showList()">Show list</button>
     
     <script>
         const foodCount = {};
         var cafeCount = 0;
         var myString = '';
-        var cafes_comment = []
         // Получаем элементы
         const cafes = document.getElementById('cafes');
         const openModalCafes = document.getElementById('openModalCafes');
@@ -182,21 +169,14 @@
         const openModalTostadas = document.getElementById('openModalTostadas');
         const closeTostadas = document.getElementById('closeTostadas');
 
-        const menulist = document.getElementById('menulist');
-        const openMenuList = document.getElementById('openMenuList');
-        const closeMenuList = document.getElementById('closeMenuList');
-
-        const menucafe = document.getElementById('menucafe');
-        const openMenuCafe = document.getElementById('openMenuCafe');
-        const closeMenuCafe = document.getElementById('closeMenuCafe');
-
         function showList() {
             myString = JSON.stringify(foodCount);
             alert(myString);
         }
 
         // Открытие модального окна
-        function cafes_menu(){
+        function cafes_menu(typo){
+            document.getElementById("cafelito").value = typo;
             cafes.style.display = 'block';
         }
 
@@ -210,55 +190,9 @@
             tostadas.style.display = 'none';
         }
 
-        openMenuList.onclick = function() {
-            foodList = {}
-            function decodeHtml(html) {
-                var txt = document.createElement("textarea");
-                txt.innerHTML = html;
-                return txt.value;
-            }
-            myString = JSON.stringify(foodCount);
-            let itemNames = "{{ item_names }}";
-            itemNames = decodeHtml(itemNames);
-            itemNames = itemNames.replace(/'/g, '"');
-            itemNames = JSON.parse(itemNames);
-            for (key in foodCount) {
-                if (key in itemNames) {
-                    foodList[itemNames[key]] = foodCount[key];
-                }
-            }
-            for (food in foodList) {
-                const fl = document.getElementById("foodlistik");
-                var foodik = document.createElement("button");
-                var node = document.createTextNode(foodList[food] + ' ' + food);
-                foodik.appendChild(node);
-                fl.appendChild(foodik);
-            }
-            menulist.style.display = 'block';
-        }
-
-        // Закрытие модального окна
-        closeMenuList.onclick = function() {
-            const parent = document.getElementById("foodlistik")
-            while (parent.firstChild) {
-                parent.firstChild.remove()
-            }
-            menulist.style.display = 'none';
-        }
-
-        openMenuCafe.onclick = function() {
-            menucafe.style.display = 'block';
-        }
-
-        // Закрытие модального окна
-        closeMenuCafe.onclick = function() {
-            menucafe.style.display = 'none';
-        }
-
         function reset_options() {
             var options = document.querySelectorAll('.option');
             options.forEach(function(element){element.checked = false})
-            document.getElementById('con leche').checked = true;
             document.getElementById('caliente').checked = true;
             document.getElementById('normal').checked = true;
             document.getElementById('vaso').checked = true;
@@ -276,6 +210,7 @@
         function deleteCafe(id, item) {
             cafeCount -= 1;
             document.getElementById(id).remove();
+            document.getElementById("dlt-" + id).remove();
             countDown(item);
         }
 
@@ -287,16 +222,7 @@
             }
             if (event.target == tostadas) {
                 tostadas.style.display = 'none';
-            }
-            if (event.target == menulist) {
-                const parent = document.getElementById("foodlistik")
-                while (parent.firstChild) {
-                    parent.firstChild.remove()
-                }
-                menulist.style.display = 'none';
-            }
-            if (event.target == menucafe) {
-                menucafe.style.display = 'none';
+                reset_options();
             }
         }
 
@@ -345,7 +271,7 @@
             var mark = '';
             var desc = '';
             var dobles = '';
-            var cafelito = document.querySelector('input[name="cafelito"]:checked').value;
+            var cafelito = document.getElementById("cafelito").value;
             var temp = document.querySelector('input[name="temperatura"]:checked').value;
             var leche = document.querySelector('input[name="leche"]:checked').value;
             var taza = document.querySelector('input[name="taza"]:checked').value;
@@ -395,16 +321,23 @@
                 if (foodCount['cafe' + mark] == null) {
                     foodCount['cafe' + mark] = 0;
                 }
-            comentario = desc + dobles + cafelito + ' ' + taza + leche + temp + azucar;
+            comentario = desc + dobles + cafelito + ' ' + taza + '| ' + leche + temp + azucar + '\n';
             foodCount['cafe' + mark] += 1;
             cafeCount += 1;
+            myString = JSON.stringify(foodCount);
+            document.getElementById("order").innerHTML = myString;
             const ele = document.getElementById("cafesss");
-            var cafeek = document.createElement("button");
+            var cafeek = document.createElement("p");
             cafeek.setAttribute("id", "cafe-" + cafeCount);
-            cafeek.setAttribute("onclick", "deleteCafe(this.id, 'cafe" + mark + "')");
             var node = document.createTextNode(comentario);
             cafeek.appendChild(node);
             ele.appendChild(cafeek);
+            var dltbtn = document.createElement("button", {class:"delete-cafe"});
+            var node2 = document.createTextNode("X");
+            dltbtn.setAttribute("onclick", "deleteCafe('cafe-" + cafeCount + "', 'cafe" + mark + "')");
+            dltbtn.setAttribute("id", "dlt-cafe-" + cafeCount);
+            dltbtn.appendChild(node2);
+            ele.appendChild(dltbtn);
             
             cafes.style.display = 'none';
             reset_options();
@@ -412,25 +345,60 @@
         }
         
         function check(event) {
-            var element = document.getElementById("cafesss");
-            var cafesss_len = element.children.length;
-            for (let i = 1; i < cafesss_len + 1; i++) {
-                cafes_comment.push(document.getElementById("cafe-" + i).textContent);
-            }
-            let data = {
-                "table": tableName,
-                "order": foodCount,
-                "cafes": cafes_comment
-            };
-            event.preventDefault();
-            fetch('/create-order', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(response => response.json());
-            window.location.replace("/");
-            } 
+            if (tableName == 'new' || tableName == "Choose the table") {
+                let name=prompt("Escribe nombre de mesa:");
+                let comment=document.getElementById("comment").value;
+                tableName = name;
+                const checkbox = document.getElementById('takeaway');
+                if (checkbox.checked) {
+                    var takeaway = true;
+                } else {
+                    var takeaway = false;
+                }
+                if (name=null){
+                    alert("Escribe el nombre");
+                }else{
+                    if (confirm(`Mesa: ${tableName} > agregar ${JSON.stringify(foodCount)}`)) {
+                        let data = {
+                            "table": tableName,
+                            "order": foodCount,
+                            "comment": comment,
+                            "takeaway": takeaway
+                        };
+                        event.preventDefault();
+                        fetch('/create-order', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        }).then(response => response.json());
+                        window.location.replace("/");
+                        } else {
+                            console.log("You pressed Cancel!");
+                    }
+                }
+            }else{
+                if (confirm(`Mesa: ${tableName} > agregar ${JSON.stringify(foodCount)}`)) {
+                    let data = {
+                        "table": tableName,
+                        "order": foodCount,
+                        "comment": comment,
+                        "takeaway": takeaway
+                    };
+                    event.preventDefault();
+                    fetch('/create-order', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    }).then(response => response.json());
+                    window.location.replace("/");
+                    } else {
+                        console.log("You pressed Cancel!");
+                    }
+                }
+        }  
     </script>
 {% endblock %}

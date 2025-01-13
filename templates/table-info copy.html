@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 {% block title %}{{ table._id }}{% endblock %}
 {% block header %}
-    <label>Mesa: {{ table._id }}</label>
-    <button onclick="payTable()">{{ table.bill }}$</button>
+    <label>Table: {{ table._id }}</label>
 {% endblock %}
 {% block main %}
+    <p>Status: {{ table.status }}<p>
+    <p>-------------------</p>
     {% for item in items %}
-        <button>{{ names[item] }}: {{ items[item] }}</button>
+        <p>{{ names[item] }}: {{ items[item] }}<p>
     {% endfor %}
-    <form id='payTable' action="pay-table" method="post">
+    <p>==============<p>
+    <p>Bill: {{ table.bill }}<p>
+    ><form action="delete-table" method="post">
         <input name="table" type="text" value="{{ table._id }}" hidden="hidden">
-        <script>
-            function payTable(){
-                if (confirm("Pagar {{ table.bill }}$ de mesa?")) {
-                    document.getElementById("payTable").submit();
-                } else {
-                    return;
-                }
-            }
-        </script>
+        <input type="submit" value="X">
+    </form>
+    <form action="pay-table" method="post">
+        <input name="table" type="text" value="{{ table._id }}" hidden="hidden">
+        <input type="submit" value="Pay">
     </form>
 {% endblock %}
 {% block footer %}

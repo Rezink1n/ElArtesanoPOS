@@ -1,3 +1,4 @@
+import json
 from fastapi import FastAPI
 from dbtools import DBtool
 from classes.table import Table
@@ -20,14 +21,13 @@ class ModelName(str, Enum):
 class OrderNote(BaseModel):
     table: str
     order: Dict[str, int]
-    comment: str
-    takeaway: bool
+    cafes: list
     
 
 app = FastAPI(title="OrderAPI")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-dbtool = DBtool(host="mongodb://orderapi-mongodb-1")
+dbtool = DBtool()
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
@@ -36,6 +36,7 @@ i = Item(dbtool)
 @app.get('/table/{table}')
 async def tableInfo(request: Request, table: str):
     table_info = await t.getInfo(table)
+    print(table_info)
     items = table_info["items"]
     menu_list_raw = await i.getAllInfo()
     item_names = {}
@@ -55,6 +56,10 @@ async def create_table(table: str = Form()):
     await t.createTable(table)
     return RedirectResponse(f"/table/{table}", status_code=303)
 
+@app.post('/reset-tables')
+async def reset_tables():
+    await t.resetTables()
+    return RedirectResponse(f"/tables", status_code=303)
 # TODO change table values and discount function
 
 
@@ -81,38 +86,37 @@ async def get_active_orders(request: Request):
         items[order["_id"]] = item
     return templates.TemplateResponse("orders.html", {"request": request, "orders": orders, "items": items})
 
-# @app.get('/orders')
-# async def get_active_orders(request: Request):
-#     orders = await o.getActiveOrders()
-#     items: dict = {}
-#     for order in orders:
-#         item = order["items"]
-#         items[order["_id"]] = item
-#     return templates.TemplateResponse("orders.html", {"request": request, "orders": orders, "items": items})
 
 @app.get('/order-info/{order}')
 async def orderInfo(request: Request, order: str):
     order_info = await o.getOrderInfo(order)
-    print(order_info)
-    items = order_info["items"]
-    return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items})
+    items: dict = order_info["items"]
+    cafe_pop = ["cafe", "cafe (soja)", "cafe (grande)", "cafe (llevar)", "cafe (doble)"]
+    for caf in cafe_pop:
+        if caf in items:
+            items.pop(caf)
+    cafes = order_info["cafes"]
+    return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items, "cafes": cafes})
 
 @app.get('/order')
 async def order_page(request: Request, table: str | None = "Choose the table"):
-    items = await i.getAllInfo()
+    items = await i.getAllInfo({"show": "true"})
+    all_items = await i.getAllInfo()
+    item_names = {}
+    for item in all_items:
+        item_names[item["_id"]] = item["name"]
     tables = await t.getInfoAll()
     holder = table
-    return templates.TemplateResponse("order.html", {"request": request, "items": items, "tables": tables, "holder": holder})
+    return templates.TemplateResponse("order.html", {"request": request, "items": items, "tables": tables, "item_names": item_names, "holder": holder})
 
 @app.post('/create-order')
 async def create_order(data: OrderNote):
-    order = data.dict()
-    print(order)
-    await o.createOrder(table=order['table'], order=order["order"], comment=order["comment"], takeaway=order["takeaway"])
+    order = data.model_dump(mode="python")
+    await o.createOrder(table=order['table'], order=order["order"], cafes=order["cafes"])
     return RedirectResponse("/", status_code=303)
 
 
-@app.post('/complete-order')
+@app.post('/order-info/complete-order') 
 async def complete_order(order: str = Form()):
     await o.completeOrder(order=order)
     return RedirectResponse("/", status_code=303)
@@ -133,6 +137,7 @@ async def itemInfo(request: Request, item: str):
 
 @app.get('/items')
 async def items(request: Request):
+    await i.createItemList()
     items = await i.getAllInfo()
     return templates.TemplateResponse("items.html", {"request": request, "items": items})
 

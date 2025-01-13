@@ -6,20 +6,9 @@
 {% block main %}
     {% for order in orders %}
         <div>
-            <a class="order" href="/order-info/{{ order._id }}">{{ order._id }}<a>
-            {% for item in items[order._id] %}
-                <span class="order"> | {{ item }}: {{ items[order._id][item]}}<span>
-            {% endfor %}
-            <form action="complete-order" method="post">
-                <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
-                <input type="submit" value="Complete">
-            </form>
-
-            <p></p>
-
+            <button><a class="order" href="/order-info/{{ order._id }}">Mesa {{ order.table }}<a></button>
         </div>
     {% endfor %}
 {% endblock %}
 {% block footer %}
-        <a href="/order"><input class="create-order" type="button" value="Create order"></a>
 {% endblock %}
