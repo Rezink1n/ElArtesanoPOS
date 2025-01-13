@@ -137,15 +137,20 @@ async def itemInfo(request: Request, item: str):
 
 @app.get('/items')
 async def items(request: Request):
-    await i.createItemList()
     items = await i.getAllInfo()
     return templates.TemplateResponse("items.html", {"request": request, "items": items})
 
 
 @app.post('/create-item')
-async def create_item(name: str = Form(), code: str = Form(), price: str = Form(), place: int = Form()):
-    await i.createItem(name=name, code=code, price=float(price), place=place)
+async def create_item(name: str = Form(), code: str = Form(), price: str = Form(), show: str = Form()):
+    await i.createItem(name=name, code=code, price=float(price), show=show)
     return RedirectResponse("/items", status_code=303)
+
+
+@app.post('/load-items')
+async def load_items(request: Request):
+    await i.createItemList()
+    return templates.TemplateResponse("items.html", {"request": request, "items": items})
 
 
 @app.post('/item/change-item')
