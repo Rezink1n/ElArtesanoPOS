@@ -4,6 +4,12 @@
     <label>Items</label>
 {% endblock %}
 {% block main %}
+    <form action="/load-items" method="post">
+        <input type="submit" value="Load items">
+    </form> 
+    <form action="/reset-tables" method="post">
+        <input type="submit" value="Reset tables">
+    </form> 
     {% for item in items %}
         <div>
             <a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a>
