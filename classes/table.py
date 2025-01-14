@@ -52,7 +52,7 @@ class Table:
         bill = 0
         for item in items:
             bill += (items[item] * pd[item])
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": round(bill, 2)})
                 
     async def removeItems(self, table: str, order: dict):
         from .item import Item
@@ -68,7 +68,7 @@ class Table:
         bill = document["bill"]
         for item in order:
             bill -= (order[item] * pd[item])
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": round(bill, 2)})
         
     async def updateItems(self, table: str, updated_items: dict):
         await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"items": updated_items})
@@ -84,7 +84,7 @@ class Table:
     async def discountBill(self, table: str, discount: float):
         bill = await self.dbtool.findOneValue(self.database, self.collection, {"_id": table}, "bill")
         bill -= discount
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": bill})
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": table}, {"bill": round(bill, 2)})
        
     async def delete(self, table: str):
         from .order import Order

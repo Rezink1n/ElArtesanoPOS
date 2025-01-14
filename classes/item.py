@@ -17,15 +17,24 @@ class Item:
             {"code": "cafe (doble)", "name": "Cafe (Doble)", "price": 2.00, "show": "false"},
             {"code": "churros", "name": "Curros", "price": 0.40, "show": "false"},
             {"code": "porras", "name": "Porras", "price": 0.80, "show": "false"},
-            {"code": "aceite", "name": "Tostada Aceite", "price": 1.70, "show": "false"},
-            {"code": "tomate", "name": "Tostada Tomate", "price": 1.70, "show": "false"},
-            {"code": "marmelada", "name": "Tostada Marmelada", "price": 1.70, "show": "false"},
-            {"code": "mixta", "name": "Tostada Mixta", "price": 3.50, "show": "false"},
-            {"code": "queso", "name": "Tostada Queso", "price": 3.50, "show": "false"},
-            {"code": "jamon", "name": "Tostada Jamon", "price": 3.50, "show": "false"},
+            {"code": "tostada aceite", "name": "Tostada Aceite", "price": 1.70, "show": "false"},
+            {"code": "tostada tomate", "name": "Tostada Tomate", "price": 1.70, "show": "false"},
+            {"code": "tostada marmelada", "name": "Tostada Marmelada", "price": 1.70, "show": "false"},
+            {"code": "tostada mixta", "name": "Tostada Mixta", "price": 3.50, "show": "false"},
+            {"code": "tostada queso", "name": "Tostada Queso", "price": 3.50, "show": "false"},
+            {"code": "tostada jamon", "name": "Tostada Jamon Serrano", "price": 3.50, "show": "false"},
+            {"code": "tostada york", "name": "Tostada York", "price": 3.50, "show": "false"},
+            {"code": "croissant", "name": "Croissant", "price": 1.70, "show": "false"},
+            {"code": "croissant marmelada", "name": "Tostada Marmelada", "price": 1.70, "show": "false"},
+            {"code": "croissant mixta", "name": "Croissant Mixta", "price": 3.50, "show": "false"},
+            {"code": "croissant queso", "name": "Croissant Queso", "price": 3.50, "show": "false"},
+            {"code": "croissant jamon", "name": "Croissant Jamon Serrano", "price": 3.50, "show": "false"},
+            {"code": "croissant york", "name": "Croissant York", "price": 3.50, "show": "false"},
+            {"code": "napolitana", "name": "Napolitana", "price": 1.70, "show": "false"},
             {"code": "CHOC", "name": "Chocolate", "price": 2.50, "show": "true"},
             {"code": "CHOP", "name": "Chocolate peq.", "price": 2.00, "show": "true"},
-            {"code": "CHOll", "name": "Chocolate (llevar).", "price": 2.60, "show": "true"}
+            {"code": "CHOll", "name": "Chocolate (llevar).", "price": 2.60, "show": "true"},
+            {"code": "Infusion", "name": "Infusion", "price": 1.90, "show": "true"}
         ]
         for item in item_list:
             await self.createItem(item['name'], item["code"], item["price"], item["show"])
