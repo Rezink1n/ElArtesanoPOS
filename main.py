@@ -25,10 +25,10 @@ class OrderNote(BaseModel):
     tostadas: list
     
 
-app = FastAPI(title="OrderAPI")
+app = FastAPI(title="ElArtesanoPOS")
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-dbtool = DBtool()
+dbtool = DBtool(host="mongodb://elartesanopos-mongodb-1")
 t = Table(dbtool)
 o = Order(dbtool)
 i = Item(dbtool)
