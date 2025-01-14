@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ order._id }}{% endblock %}
 {% block header %}
-    <label>Order {{ order._id }}
+    <label>Pedido {{ order._id }}
     <form action="complete-order" method="post">
         <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
         <input type="submit" value="Completar">
@@ -31,7 +31,11 @@
     <h2 style="margin-left: 40%">{{ porras }} / {{ churros }}</h2>
     <h3>Comida:</h3>
     {% for item in items %}
-        <button>{{ item }}: {{ items[item]}}</button>
+        <button>{{ items[item]}} {{ item }}</button>
+    {% endfor %}
+    <h3>Tostadas:</h3>
+    {% for tostada in tostadas %}
+        <button>{{ tostada }}</button>
     {% endfor %}
     <h3>Cafes:</h3>
     {% for cafe in cafes %}

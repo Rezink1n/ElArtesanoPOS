@@ -22,6 +22,7 @@ class OrderNote(BaseModel):
     table: str
     order: Dict[str, int]
     cafes: list
+    tostadas: list
     
 
 app = FastAPI(title="OrderAPI")
@@ -36,7 +37,6 @@ i = Item(dbtool)
 @app.get('/table/{table}')
 async def tableInfo(request: Request, table: str):
     table_info = await t.getInfo(table)
-    print(table_info)
     items = table_info["items"]
     menu_list_raw = await i.getAllInfo()
     item_names = {}
@@ -96,7 +96,13 @@ async def orderInfo(request: Request, order: str):
         if caf in items:
             items.pop(caf)
     cafes = order_info["cafes"]
-    return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items, "cafes": cafes})
+    tostada_pop = ["tostada tomate", "tostada aceite", "tostada marmelada", "tostada queso", "tostada mixta", "tostada york", "tostada jamon", "croissant", "croissant marmelada", "croissant mixta", "croissant queso", "croissant jamon", "napolitana"]
+    tostadas = []
+    for tos in tostada_pop:
+        if tos in items:
+            items.pop(tos)
+    tostadas = order_info["tostadas"]
+    return templates.TemplateResponse("order-info.html", {"request": request, "order": order_info, "items": items, "cafes": cafes, "tostadas": tostadas})
 
 @app.get('/order')
 async def order_page(request: Request, table: str | None = "Choose the table"):
@@ -112,7 +118,8 @@ async def order_page(request: Request, table: str | None = "Choose the table"):
 @app.post('/create-order')
 async def create_order(data: OrderNote):
     order = data.model_dump(mode="python")
-    await o.createOrder(table=order['table'], order=order["order"], cafes=order["cafes"])
+    print(order["tostadas"])
+    await o.createOrder(table=order['table'], order=order["order"], cafes=order["cafes"], tostadas=order["tostadas"])
     return RedirectResponse("/", status_code=303)
 
 
