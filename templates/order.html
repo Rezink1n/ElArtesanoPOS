@@ -476,7 +476,6 @@
             var comentario_t = '';
             var pan = document.querySelector('input[name="pan"]:checked').value;
             var tostada = document.querySelector('input[name="tostada"]:checked').value;
-            alert(tostada);
             if (pan == 'normal') {
                 pan = '';
             }else{
@@ -510,7 +509,6 @@
             for (let i = 1; i < tostadasss_len + 1; i++) {
                 tostadas_comment.push(document.getElementById("tostada-" + i).textContent);
             }
-            alert(tostadas_comment)
             let data = {
                 "table": tableName,
                 "order": foodCount,
