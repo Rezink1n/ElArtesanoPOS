@@ -65,10 +65,13 @@ class Item:
         
     async def changeName(self, code: str, new_name: str):
         await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"name": new_name})
-                
+    
     async def changePrice(self, code: str, price: float):
-        await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"price": price})
-       
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"price": price})   
+        
+    async def changeShow(self, code: str, show: str):
+        await self.dbtool.updateOne(self.database, self.collection, {"_id": code}, {"show": show})
+                
     async def delete(self, code: str):
         await self.dbtool.deleteOne(self.database, self.collection, {"_id": code})
         

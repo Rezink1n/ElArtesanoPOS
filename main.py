@@ -14,9 +14,9 @@ from pydantic import BaseModel
 from typing import Dict
 
 class ModelName(str, Enum):
-    description = "name"
+    name = "name"
     price = "price"
-    place = "place"
+    show = "show"
     
 class OrderNote(BaseModel):
     table: str
@@ -79,7 +79,6 @@ async def delete_table(table: str = Form()):
 @app.get('/')
 async def get_active_orders(request: Request):
     orders = await o.getActiveOrders()
-    # TODO if error
     items: dict = {}
     for order in orders:
         item = order["items"]
@@ -157,17 +156,18 @@ async def create_item(name: str = Form(), code: str = Form(), price: str = Form(
 @app.post('/load-items')
 async def load_items(request: Request):
     await i.createItemList()
+    items = await i.getAllInfo()
     return templates.TemplateResponse("items.html", {"request": request, "items": items})
 
 
 @app.post('/item/change-item')
 async def change_item(item: str = Form(), model_name: ModelName = Form(), value: str = Form()):
-    if model_name is ModelName.description:
+    if model_name is ModelName.name:
         await i.changeName(item, value)
+    if model_name is ModelName.show:
+        await i.change(item, value)
     if model_name is ModelName.price:
         await i.changePrice(item, float(value))
-    if model_name is ModelName.place:
-        await i.changePlace(item, int(value))
     return RedirectResponse("/items", status_code=303)
 
 @app.post('/item/delete-item')
