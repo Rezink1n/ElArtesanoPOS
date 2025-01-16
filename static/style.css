@@ -73,7 +73,7 @@ footer {
     margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(7, 1fr);
 }
 
 .order-item {
@@ -165,7 +165,7 @@ footer {
     width: 300px;
 }
 
-.tostadas-menu {
+.bolleria-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr); 

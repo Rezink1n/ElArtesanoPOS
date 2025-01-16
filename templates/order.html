@@ -172,16 +172,20 @@
             <div class="modal-content">
                 <span id="closeMenuCafe" class="close">&times;</span>
                 <div class="menucafe">
-                    <div id="cafesss"></div>
+                    <div id="cafesss">
+                    </div>
                 </div>
+                <p>*Tocar para quitar</p>
             </div>
         </div>
         <div id="menutostadas" class="modal">
             <div class="modal-content">
                 <span id="closeMenuTostadas" class="close">&times;</span>
                 <div class="menutostadas">
-                    <div id="tostadasss"></div>
+                    <div id="tostadasss">
+                    </div>
                 </div>
+                <p>*Tocar para quitar</p>
             </div>
         </div>
         <div class="order-item">
@@ -193,10 +197,10 @@
             <button class="button-minus" type="button" onclick="countDown('churros')">-</button>
         </div>
         <div class="order-item">
-            <button class="button-item" id="openModalCafes" onclick="cafes_menu()"type="button">Cafe</button>
+            <button class="button-item" id="openModalTostadas" type="button">Tostadas</button>
         </div>
         <div class="order-item">
-            <button class="button-item" id="openModalTostadas" type="button">Tostadas</button>
+            <button class="button-item" id="openModalCafes" onclick="cafes_menu()"type="button">Cafe</button>
         </div>
         <div class="order-item">
             <button class="button-item" id="openModalBolleria" type="button">Bolleria</button>
@@ -447,7 +451,7 @@
                     mark = ' (soja)';
                     break;
                 case "normal":
-                leche = '';
+                    leche = '';
                     break;
             }
 

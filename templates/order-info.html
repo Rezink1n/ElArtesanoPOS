@@ -4,7 +4,7 @@
     <label>Pedido {{ order._id }}
     <form action="complete-order" method="post">
         <input name="order" type="text" value="{{ order._id }}" hidden="hidden">
-        <input type="submit" value="Completar">
+        <input type="submit" style="background-color:rgb(155, 192, 91)" value="Completar">
     </form></label>
 {% endblock %}
 {% block main %}
