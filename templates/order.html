@@ -414,9 +414,6 @@
             var descaf = document.getElementById("desc").checked;
             var dobl = document.getElementById("dobl").checked;
             
-            if (leche == 'soja') {
-                mark = ' (soja)';
-            }
             switch (taza) {
                 case "vaso":
                     taza = '';
@@ -441,11 +438,20 @@
                 } else {
                     temp = ' ' + temp;
                 }
-            if (leche =="normal") {
+            
+            switch (leche) {
+                case "sin lactosa":
+                    leche = 'sin lactosa';
+                    break;
+                case "soja":
+                    mark = ' (soja)';
+                    break;
+                case "normal":
                 leche = '';
+                    break;
             }
 
-            if (azucar =="azucar") {
+            if (azucar == "azucar") {
                 azucar = '';
             } else {
                 azucar = ' con ' + azucar;
