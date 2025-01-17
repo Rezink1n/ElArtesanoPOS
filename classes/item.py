@@ -11,11 +11,11 @@ class Item:
         await self.deleteAll()
         item_list = [
             {"code": "cafe", "name": "Cafe", "price": 1.60, "show": "false"},
-            {"code": "cafe (soja)", "name": "Cafe (Soja)", "price": 1.70, "show": "false"},
-            {"code": "cafe (grande)", "name": "Cafe (Grande)", "price": 1.70, "show": "false"},
+            {"code": "cafe (soja)", "name": "Cafe (soja)", "price": 1.70, "show": "false"},
+            {"code": "cafe (grande)", "name": "Cafe (grande)", "price": 1.70, "show": "false"},
             {"code": "cafe (llevar)", "name": "Cafe (llevar)", "price": 1.70, "show": "false"},
-            {"code": "cafe (doble)", "name": "Cafe (Doble)", "price": 2.00, "show": "false"},
-            {"code": "churros", "name": "Curros", "price": 0.40, "show": "false"},
+            {"code": "cafe (doble)", "name": "Cafe (doble)", "price": 2.00, "show": "false"},
+            {"code": "churros", "name": "Churros", "price": 0.40, "show": "false"},
             {"code": "porras", "name": "Porras", "price": 0.80, "show": "false"},
             {"code": "tostada aceite", "name": "Tostada Aceite", "price": 1.70, "show": "false"},
             {"code": "tostada tomate", "name": "Tostada Tomate", "price": 1.70, "show": "false"},
@@ -31,14 +31,26 @@ class Item:
             {"code": "croissant jamon", "name": "Croissant Jamon Serrano", "price": 3.50, "show": "false"},
             {"code": "croissant york", "name": "Croissant York", "price": 3.50, "show": "false"},
             {"code": "napolitana", "name": "Napolitana", "price": 1.70, "show": "false"},
-            {"code": "CHOC", "name": "Chocolate", "price": 2.50, "show": "true"},
-            {"code": "CHOP", "name": "Chocolate peq.", "price": 2.00, "show": "true"},
-            {"code": "CHOll", "name": "Chocolate (llevar).", "price": 2.60, "show": "true"},
-            {"code": "Infusion", "name": "Infusion", "price": 1.90, "show": "true"}
+            {"code": "infusion", "name": "Infusion", "price": 1.90, "show": "false"},
+            {"code": "choco", "name": "Chocolate", "price": 2.50, "show": "false"},
+            {"code": "choco peq.", "name": "Chocolate peq.", "price": 2.00, "show": "false"},
+            {"code": "choco llevar", "name": "Chocolate (llevar)", "price": 2.60, "show": "false"},
+            {"code": "choco medio", "name": "Chocolate 0.5L", "price": 6.00, "show": "false"},
+            {"code": "choco litro", "name": "Chocolate 1L", "price": 12.00, "show": "false"},
+            {"code": "vaso leche", "name": "Vaso de leche", "price": 1.60, "show": "true"},
+            {"code": "zumo naranja", "name": "Zumo Naranja", "price": 3.00, "show": "true"},
+            {"code": "zumo botella", "name": "Zumo Botellin", "price": 2.50, "show": "true"},
+            {"code": "agua peq.", "name": "Agua peq.", "price": 1.50, "show": "true"},
+            {"code": "agua grande", "name": "Agua grande", "price": 2.00, "show": "true"},
+            {"code": "agua gas", "name": "Agua con gas", "price": 2.00, "show": "true"},
+            {"code": "chupito", "name": "Chupito", "price": 1.50, "show": "true"},
+            {"code": "licor", "name": "Licor", "price": 2.50, "show": "true"},
+            {"code": "copa", "name": "Copa", "price": 5.00, "show": "true"},
+            {"code": "refresco", "name": "Refresco", "price": 3.00, "show": "true"},
+            {"code": "bolsa", "name": "Bolsa", "price": 0.10, "show": "true"}
         ]
         for item in item_list:
             await self.createItem(item['name'], item["code"], item["price"], item["show"])
-            print("ok!")
         
     async def createItem(self, name: str, code: str, price: float, show: str):
         document = {"_id": code,

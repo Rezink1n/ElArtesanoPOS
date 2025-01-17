@@ -6,7 +6,7 @@
 {% endblock %}
 {% block main %}
     {% for item in items %}
-        <button>{{ names[item] }}: {{ items[item] }}</button>
+        <button>{{ items[item] }}x {{ names[item] }}</button>
     {% endfor %}
     <form id='payTable' action="pay-table" method="post">
         <input name="table" type="text" value="{{ table._id }}" hidden="hidden">

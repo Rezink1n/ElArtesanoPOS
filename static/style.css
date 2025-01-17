@@ -39,6 +39,18 @@ footer {
     flex-direction: row;
 }
 
+.ajustes-list {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr 1fr 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    -webkit-overflow-scrolling: touch;
+}
+
+.ajustes-button {
+    width: fit-content;
+}
+
 .home-button {
     height: 50px;
     width: 70px;

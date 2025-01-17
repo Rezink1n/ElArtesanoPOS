@@ -157,6 +157,33 @@
                 </div>
             </div>
         </div>
+        <div id="chocos" class="modal">
+            <div class="modal-content">
+                <span id="closeChocos" class="close">&times;</span>
+                <div class="bolleria-menu">
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('choco')">Choco<br><span id="choco-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('choco')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('choco peq.')">Choco peq.<br><span id="choco peq.-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('choco peq.')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('choco llevar')">Choco llevar<br><span id="choco llevar-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('choco llevar')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('choco medio')">Choco medio<br><span id="choco medio-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('choco medio')">-</button>
+                    </div>
+                    <div class="order-item">
+                        <button class="button-item" type="button" onclick="countClick('choco litro')">Choco litro<br><span id="choco litro-count">0</button>
+                        <button class="button-minus" type="button" onclick="countDown('choco litro')">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="menulist" class="modal">
             <div class="modal-content">
                 <span id="closeMenuList" class="close">&times;</span>
@@ -204,6 +231,9 @@
             <button class="button-item" id="openModalCafes" onclick="cafes_menu()"type="button">Cafe</button>
         </div>
         <div class="order-item">
+            <button class="button-item" id="openModalChocos" type="button">Choco</button>
+        </div>
+        <div class="order-item">
             <button class="button-item" id="openModalBolleria" type="button">Bolleria</button>
         </div>
         {% for item in items %}
@@ -240,6 +270,10 @@
         const openModalBolleria = document.getElementById('openModalBolleria');
         const closeBolleria = document.getElementById('closeBolleria');
 
+        const chocos = document.getElementById('chocos');
+        const openModalChocos = document.getElementById('openModalChocos');
+        const closeChocos = document.getElementById('closeChocos');
+
         const menulist = document.getElementById('menulist');
         const openMenuList = document.getElementById('openMenuList');
         const closeMenuList = document.getElementById('closeMenuList');
@@ -269,6 +303,13 @@
         }
         closeBolleria.onclick = function() {
             bolleria.style.display = 'none';
+        }
+
+        openModalChocos.onclick = function() {
+            chocos.style.display = 'block';
+        }
+        closeChocos.onclick = function() {
+            chocos.style.display = 'none';
         }
 
         openMenuList.onclick = function() {
@@ -376,6 +417,9 @@
             }
             if (event.target == bolleria) {
                 bolleria.style.display = 'none';
+            }
+            if (event.target == chocos) {
+                chocos.style.display = 'none';
             }
         }
 

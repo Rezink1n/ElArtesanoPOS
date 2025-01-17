@@ -10,11 +10,12 @@
     <form action="/reset-tables" method="post">
         <input type="submit" value="Reset tables">
     </form> 
-    {% for item in items %}
-        <div class="order-list">
-            <button><a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a>| {{ item["price"] }} | {{ item["name"] }}</button>
-        </div>
-    {% endfor %}
+    <div class="ajustes-list">
+        {% for item in items %}
+            <button class="ajustes-button"><a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a> {{ item["price"] }}$</button>
+        {% endfor %}
+    </div>
+    
 {% endblock %}
 {% block footer %}
         <form action="/create-item" method="post">
