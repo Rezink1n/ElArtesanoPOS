@@ -8,7 +8,7 @@
     </form></label>
 {% endblock %}
 {% block main %}
-    <button><a href="/table/{{ order.table }}">Abrir mesa {{ order.table }}<a></button>
+    <button><a href="/table/{{ order.table }}">Abrir mesa {{ order.table }}<a></button><br>
     <button onclick="cancelOrder()">Cancelar pedido</button>
     <form id='cancelOrder' action="cancel-order" method="post">
         <input name="order" type="text" value="{{ order._id }}" hidden="hidden">

@@ -11,9 +11,8 @@
         <input type="submit" value="Reset tables">
     </form> 
     {% for item in items %}
-        <div>
-            <a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a>
-            <span> | {{ item["price"] }} | {{ item["name"] }}</span>
+        <div class="order-list">
+            <button><a href="/item/{{ item["_id"] }}">{{ item["_id"] }}</a>| {{ item["price"] }} | {{ item["name"] }}</button>
         </div>
     {% endfor %}
 {% endblock %}

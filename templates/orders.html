@@ -7,12 +7,11 @@
     <label>--== Pedidos activos ==--</label>
 {% endblock %}
 {% block main %}
-    {% for order in orders %}
-        <div>
-            <button><a class="order" href="/order-info/{{ order._id }}">Mesa {{ order.table }}<a></button>
-        </div>
-    {% endfor %}
+    <div class='order-list'>
+        {% for order in orders %}
+            <button><a class="order" type="button" href="/order-info/{{ order._id }}">Mesa {{ order.table }}<a></button>
+        {% endfor %}
+    </div>
 {% endblock %}
 {% block footer %}
-    <a href="/tables"><input class="tables-button" type="button" value="Mesas"></a>        
 {% endblock %}

@@ -33,6 +33,12 @@ footer {
     text-align: center;
 }
 
+.order-list {
+    margin-top: 10px;
+    display: flexbox;
+    flex-direction: row;
+}
+
 .home-button {
     height: 50px;
     width: 70px;
@@ -86,9 +92,16 @@ footer {
     justify-content: center;
 }
 
+button {
+    border-radius: 10px;
+    border-width: 1px;
+}
+
 .button-item {
-    max-height: 60px;
-    max-width: 80px;
+    min-height: 60px;
+    max-width: fit-content;
+    max-height: fit-content;
+    border-radius: 10px;
     text-align: center;
     justify-content: center;
 }
@@ -96,19 +109,19 @@ footer {
 .button-minus {
     margin: 10px 20px 10px 5px;
     border-color: red;
+    border-radius: 20px;
+    min-height: 20px;
     max-height: 40px;
-    max-width: 50px;
+    width: 40px;
 }
 
 .create-button, .create-order {
     height: 60px;
     width: 120px;
     margin-bottom: 10px;
+    border-radius: 10px;
 }
 
-.comment-btn {
-    height: 35px;   
-}
 
 .textarea-div {
     display: grid;
@@ -151,10 +164,12 @@ footer {
 /* Содержимое модального окна */
 .modal-content {
     background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
+    margin: 10% auto;
+    padding: 10px;
     border-radius: 5px;
-    width: 300px;
+    min-width: fit-content;
+    max-width: 800px;
+    position: relative;
 }
 
 .modal-content-tostadas {
@@ -178,8 +193,7 @@ footer {
     font-size: 28px;
     font-weight: bold;
     position: absolute;
-    top: 10px;
-    right: 15px;
+    left: 90%;
 }
 
 .delete-cafe {

@@ -1,4 +1,3 @@
-import json
 from fastapi import FastAPI
 from dbtools import DBtool
 from classes.table import Table
@@ -49,7 +48,6 @@ async def tableInfo(request: Request, table: str):
 async def tables(request: Request):
     tables = await t.getInfoAll()
     return templates.TemplateResponse("tables.html", {"request": request, "tables": tables})
-
 
 @app.post('/create-table')
 async def create_table(table: str = Form()):
@@ -117,7 +115,6 @@ async def order_page(request: Request, table: str | None = "Choose the table"):
 @app.post('/create-order')
 async def create_order(data: OrderNote):
     order = data.model_dump(mode="python")
-    print(order["tostadas"])
     await o.createOrder(table=order['table'], order=order["order"], cafes=order["cafes"], tostadas=order["tostadas"])
     return RedirectResponse("/", status_code=303)
 
